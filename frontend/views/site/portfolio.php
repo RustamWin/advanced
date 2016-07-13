@@ -1,5 +1,7 @@
 <?php
 /* @var $this yii\web\View */
+use yii\bootstrap\Modal;
+
 $this->title = 'Andia - Portfolio';
 $this->registerMetaTag([
     'description' =>'',
@@ -45,10 +47,16 @@ $this->registerMetaTag([
                         <?php $number = 0; foreach ($all as $work) { $number++;?>
                         <li data-id="p-<?=$number?>" data-type="all" class="col-md-3">
                             <div class="work">
-                                <a href="<?=$work->img?>" rel="prettyPhoto">
-                                    <img src="<?=$work->img?>" class="img-responsive" alt="">
-                                </a>
-                                <h4><?=$work->title?></h4>
+                                <img src="<?=$work->img?>" class="img-responsive" alt="">
+                                <?php Modal::begin([
+                                    'header' => '<h3>'.$work->title.'</h3><img src="'.$work->img.'" class="img-responsive" style="margin:30px 0 20px;opacity:1;"></img>',
+                                    'toggleButton' => [ 'tag' => 'u',
+                                        'label'=> '<h4>'.$work->title.'</h4>',],
+                                ]);
+                                echo $work->full;
+
+                                Modal::end(); ?>
+
                                 <p><?=$work->description?></p>
                             </div>
                         </li>
@@ -58,10 +66,16 @@ $this->registerMetaTag([
                         <?php $number = 0; foreach ($web as $work) { $number++;?>
                         <li data-id="p-<?=$number?>" data-type="web-design" class="col-md-3">
                             <div class="work">
-                                <a href="<?=$work->img?>" rel="prettyPhoto">
-                                    <img src="<?=$work->img?>" class="img-responsive" alt="">
-                                </a>
-                                <h4><?=$work->title?></h4>
+                                <img src="<?=$work->img?>" class="img-responsive" alt="">
+                                <?php Modal::begin([
+                                    'header' => '<h3>'.$work->title.'</h3><img src="'.$work->img.'" class="img-responsive" style="margin:30px 0 20px;opacity:1;"></img>',
+                                    'toggleButton' => [ 'tag' => 'u',
+                                        'label'=> '<h4>'.$work->title.'</h4>',],
+                                ]);
+                                echo $work->full;
+
+                                Modal::end(); ?>
+
                                 <p><?=$work->description?></p>
                             </div>
                         </li>
@@ -71,10 +85,16 @@ $this->registerMetaTag([
                         <?php $number = 0; foreach ($logo as $work) { $number++;?>
                         <li data-id="p-<?=$number?>" data-type="logo-design" class="col-md-3">
                             <div class="work">
-                                <a href="<?=$work->img?>" rel="prettyPhoto">
-                                    <img src="<?=$work->img?>" class="img-responsive" alt="">
-                                </a>
-                                <h4><?=$work->title?></h4>
+                                <img src="<?=$work->img?>" class="img-responsive" alt="">
+                                <?php Modal::begin([
+                                    'header' => '<h3>'.$work->title.'</h3><img src="'.$work->img.'" class="img-responsive" style="margin:30px 0 20px;opacity:1;"></img>',
+                                    'toggleButton' => [ 'tag' => 'u',
+                                        'label'=> '<h4>'.$work->title.'</h4>',],
+                                ]);
+                                echo $work->full;
+
+                                Modal::end(); ?>
+
                                 <p><?=$work->description?></p>
                             </div>
                         </li>
@@ -84,10 +104,16 @@ $this->registerMetaTag([
                         <?php $number = 0; foreach ($print as $work) { $number++;?>
                         <li data-id="p-<?=$number?>" data-type="print-design" class="col-md-3">
                             <div class="work">
-                                <a href="<?=$work->img?>" rel="prettyPhoto">
-                                    <img src="<?=$work->img?>" class="img-responsive" alt="">
-                                </a>
-                                <h4><?=$work->title?></h4>
+                                <img src="<?=$work->img?>" class="img-responsive" alt="">
+                                <?php Modal::begin([
+                                    'header' => '<h3>'.$work->title.'</h3><img src="'.$work->img.'" class="img-responsive" style="margin:30px 0 20px;opacity:1;"></img>',
+                                    'toggleButton' => [ 'tag' => 'u',
+                                        'label'=> '<h4>'.$work->title.'</h4>',],
+                                ]);
+                                echo $work->full;
+
+                                Modal::end(); ?>
+
                                 <p><?=$work->description?></p>
                             </div>
                         </li>

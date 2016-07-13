@@ -31,10 +31,7 @@
     });
 
 
-    /* Pretty Photo */
-    $("a[rel^='prettyPhoto']").prettyPhoto({
-        social_tools: false
-    });
+    
 
 
     /* Show latest tweets */

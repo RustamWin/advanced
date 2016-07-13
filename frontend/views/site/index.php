@@ -10,7 +10,7 @@ $this->registerMetaTag([
                            'keywords' => '',
                            'content' => ''
                        ]);
-use app\components\Slider;
+use yii\bootstrap\Modal;
 use app\models\Slides;
 use yii\bootstrap\Carousel;
 
@@ -27,7 +27,7 @@ use yii\bootstrap\Carousel;
 
                             <li data-thumb="<?= $slide->img ?>">
                                 <img src="<?= $slide->img ?>">
-                                <p class="flex-caption"><?= $slide->caption ?></p>
+                                <p class="flex-caption"><?= $slide->description ?></p>
                             </li>
 
                         <?php } ?>
@@ -74,8 +74,18 @@ use yii\bootstrap\Carousel;
                 <h4><?= $work->title ?></h4>
                 <p><?= $work->description ?></p>
                 <div class="icon-awesome">
-                    <a href="<?= $work->img ?>" rel="prettyPhoto"><i class="fa fa-search"></i></a>
-                    <a href="<?= Yii::$app->urlManager->createUrl(["site/portfolio"]) ?>"><i class="fa fa-link"></i></a>
+
+                    <?php Modal::begin([
+                        'size' => 'SIZE_LARGE',
+                        'header' => '<h3>'.$work->title.'</h3><img src="'.$work->img.'" class="col-md-12" style="margin:30px 0 20px;opacity:1;"></img>',
+                        'toggleButton' => [ 'tag' => 'a',
+                                            'class' => 'fa fa-link',
+                                            'label'=> '',],
+                    ]);
+
+                    echo $work->full;
+
+                    Modal::end(); ?>
                 </div>
             </div>
         <?php } ?>

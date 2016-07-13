@@ -78,7 +78,7 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        $slides = Slides::find()->limit(4)->orderBy(['id' => SORT_DESC])->all();
+        $slides = Portfolio::find()->limit(4)->orderBy('rand()')->all();
         
         $services = Services::find()->orderBy(['id' => SORT_ASC])->all();
         $works = Portfolio::find()->limit(4)->orderBy(['id' => SORT_DESC])->all();

@@ -325,6 +325,17 @@ li button i:hover {
     line-height: 22px;
 }
 
+.modal-content {
+    width: 700px;
+}
+.icon-awesome a {
+    cursor: pointer;
+}
+
+.modal-body {
+    font-size: 12px;
+}
+
 .portfolio .work .icon-awesome a {
     display: inline-block;
     padding: 5px 9px;
@@ -379,6 +390,7 @@ li button i:hover {
 
 .work h4 {
     font-family: 'Droid Sans', Helvetica, Arial, sans-serif;
+    cursor: pointer;
 }
 
 /* ----- Testimonials ----- */

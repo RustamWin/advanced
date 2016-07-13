@@ -8,7 +8,7 @@ use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-
+use backend\models\UploadForm;
 /**
  * PortfolioController implements the CRUD actions for Portfolio model.
  */
@@ -26,12 +26,14 @@ class PortfolioController extends Controller
         ];
     }
 
+
     /**
      * Lists all Portfolio models.
      * @return mixed
      */
     public function actionIndex()
     {
+
         $dataProvider = new ActiveDataProvider([
             'query' => Portfolio::find(),
         ]);
@@ -61,6 +63,7 @@ class PortfolioController extends Controller
     public function actionCreate()
     {
         $model = new Portfolio();
+
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
