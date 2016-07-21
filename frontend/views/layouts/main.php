@@ -5,7 +5,8 @@
 
 use yii\helpers\Html;
 use frontend\assets\AppAsset;
-use app\models\User;
+use app\models\About;
+use app\models\Config;
 
 AppAsset::register($this);
 $action = Yii::$app->controller->action->id;
@@ -58,25 +59,6 @@ $action = Yii::$app->controller->action->id;
                                         <a href="<?=Yii::$app->urlManager->createUrl(["site/contact"])?>"><i class="fa fa-envelope"></i><br />Contact</a>
                                     </li>
 
-                                    <?php if (!Yii::$app->user->isGuest) { ?>
-                                        <li>
-                                            <?= Html::beginForm(['/site/logout'], 'post')
-                                            . Html::submitButton(
-                                            '<i class="fa fa-sign-out"></i><br />Logout <br />(' . Yii::$app->user->identity->username . ')',
-                                            ['class' => 'btn btn-link']
-                                            )
-                                            . Html::endForm();
-                                            ?>
-                                        </li>
-
-                                    <?php } else { ?>
-                                    <li>
-                                        <a href="<?=Yii::$app->urlManager->createUrl(["site/login"])?>"><i class="fa fa-sign-in"></i><br />Login</a>
-                                    </li>
-                                    <li <?php if ($action == "signup") { ?> class="current-page"<?php } ?>>
-                                        <a href="<?=Yii::$app->urlManager->createUrl(["site/signup"])?>"><i class="fa fa-plus-square"></i><br />SignUp</a>
-                                    </li>
-                                    <?php } ?>
                                 </ul>
                             </div>
                         </div>

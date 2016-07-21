@@ -4,7 +4,8 @@ namespace backend\controllers;
 
 use Yii;
 use backend\models\User;
-use yii\data\ActiveDataProvider;
+use backend\models\UserSearch;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -23,6 +24,15 @@ class UserController extends Controller
                     'delete' => ['post'],
                 ],
             ],
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@']
+                    ]
+                ]
+            ],
         ];
     }
 
@@ -32,12 +42,16 @@ class UserController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => User::find(),
-        ]);
+        $searchModel = new UserSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $arrayStatus = User::getArrayStatus();
+        $arrayRole = User::getArrayRole();
 
         return $this->render('index', [
+            'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'arrayStatus' => $arrayStatus,
+            'arrayRole' => $arrayRole,
         ]);
     }
 
@@ -60,9 +74,10 @@ class UserController extends Controller
      */
     public function actionCreate()
     {
-        $model = new User();
+        $model = new User(['scenario' => 'admin-create']);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            Yii::$app->authManager->assign(Yii::$app->authManager->getRole($model->role), $model->id);
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
@@ -80,8 +95,11 @@ class UserController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $model->setScenario('admin-update');
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            Yii::$app->authManager->revokeAll($id);
+            Yii::$app->authManager->assign(Yii::$app->authManager->getRole($model->role), $id);
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [

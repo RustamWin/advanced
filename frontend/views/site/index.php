@@ -11,8 +11,6 @@ $this->registerMetaTag([
                            'content' => ''
                        ]);
 use yii\bootstrap\Modal;
-use app\models\Slides;
-use yii\bootstrap\Carousel;
 
 ?>
 <!-- Slider -->
@@ -54,7 +52,7 @@ use yii\bootstrap\Carousel;
                     <i class="fa fa-<?= $service->icon ?>"></i>
                 </div>
                 <h4><?= $service->title ?></h4>
-                <p><?= $service->text ?></p>
+                <p><?= $service->description ?></p>
                 <a href="<?= Yii::$app->urlManager->createUrl(["site/services"]) ?>">Read more</a>
             </div>
         <?php } ?>

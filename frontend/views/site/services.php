@@ -45,7 +45,7 @@ $this->registerMetaTag([
                     <i class="fa fa-<?=$service->icon?>"></i>
                 </div>
                 <h4><?=$service->title?></h4>
-                <p><?=$service->text?></p>
+                <p><?=$service->description?></p>
             
             </div>
         <?php } ?>

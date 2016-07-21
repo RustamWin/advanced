@@ -7,7 +7,6 @@ use yii\widgets\DetailView;
 /* @var $model backend\models\Config */
 
 $this->title = $model->title;
-$this->params['breadcrumbs'][] = ['label' => 'Configs', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="config-view">
@@ -15,8 +14,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Update', ['update', 'address' => $model->address, 'phone' => $model->phone, 'email' => $model->email, 'title' => $model->title], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'address' => $model->address, 'phone' => $model->phone, 'email' => $model->email, 'title' => $model->title], [
+        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
                 'confirm' => 'Are you sure you want to delete this item?',

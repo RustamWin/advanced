@@ -1,45 +1,106 @@
 <?php
-
 namespace backend\models;
 
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
- * This is the model class for table "user".
+ * User model
  *
  * @property integer $id
  * @property string $username
- * @property string $auth_key
  * @property string $password_hash
  * @property string $password_reset_token
  * @property string $email
+ * @property string $auth_key
+ * @property integer $role
  * @property integer $status
  * @property integer $created_at
  * @property integer $updated_at
+ * @property string $password write-only password
  */
-class User extends \yii\db\ActiveRecord
+class User extends \common\models\User
 {
+    public $password;
+    public $repassword;
+    private $_statusLabel;
+    private $_roleLabel;
+
     /**
      * @inheritdoc
      */
-    public static function tableName()
+    public function getStatusLabel()
     {
-        return 'user';
+        if ($this->_statusLabel === null) {
+            $statuses = self::getArrayStatus();
+            $this->_statusLabel = $statuses[$this->status];
+        }
+        return $this->_statusLabel;
     }
 
     /**
      * @inheritdoc
      */
+    public static function getArrayStatus()
+    {
+        return [
+            self::STATUS_ACTIVE => Yii::t('app', 'STATUS_ACTIVE'),
+            self::STATUS_INACTIVE => Yii::t('app', 'STATUS_INACTIVE'),
+            self::STATUS_DELETED => Yii::t('app', 'STATUS_DELETED'),
+        ];
+    }
+
+    public static function getArrayRole()
+    {
+        return ArrayHelper::map(Yii::$app->authManager->getRoles(), 'name', 'description');
+    }
+
+    public function getRoleLabel()
+    {
+
+        if ($this->_roleLabel === null) {
+            $roles = self::getArrayRole();
+            $this->_roleLabel = $roles[$this->role];
+        }
+        return $this->_roleLabel;
+    }
+
+    /**
+      * @inheritdoc
+      */
     public function rules()
     {
         return [
-            [['username', 'auth_key', 'password_hash', 'email', 'created_at', 'updated_at'], 'required'],
-            [['status', 'created_at', 'updated_at'], 'integer'],
-            [['username', 'password_hash', 'password_reset_token', 'email'], 'string', 'max' => 255],
-            [['auth_key'], 'string', 'max' => 32],
-            [['username'], 'unique'],
-            [['email'], 'unique'],
-            [['password_reset_token'], 'unique']
+            [['username', 'email'], 'required'],
+            [['password', 'repassword'], 'required', 'on' => ['admin-create']],
+            [['username', 'email', 'password', 'repassword'], 'trim'],
+            [['password', 'repassword'], 'string', 'min' => 6, 'max' => 30],
+            // Unique
+            [['username', 'email'], 'unique'],
+            // Username
+            ['username', 'match', 'pattern' => '/^[a-zA-Z0-9_-]+$/'],
+            ['username', 'string', 'min' => 3, 'max' => 30],
+            // E-mail
+            ['email', 'string', 'max' => 100],
+            ['email', 'email'],
+            // Repassword
+            ['repassword', 'compare', 'compareAttribute' => 'password'],
+            //['status', 'default', 'value' => self::STATUS_ACTIVE],
+            ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE, self::STATUS_DELETED]],
+
+            // Status
+            ['role', 'in', 'range' => array_keys(self::getArrayRole())],
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function scenarios()
+    {
+        return [
+            'admin-create' => ['username', 'email', 'password', 'repassword', 'status', 'role'],
+            'admin-update' => ['username', 'email', 'password', 'repassword', 'status', 'role']
         ];
     }
 
@@ -48,16 +109,30 @@ class User extends \yii\db\ActiveRecord
      */
     public function attributeLabels()
     {
-        return [
-            'id' => 'ID',
-            'username' => 'Username',
-            'auth_key' => 'Auth Key',
-            'password_hash' => 'Password Hash',
-            'password_reset_token' => 'Password Reset Token',
-            'email' => 'Email',
-            'status' => 'Status',
-            'created_at' => 'Created At',
-            'updated_at' => 'Updated At',
-        ];
+        $labels = parent::attributeLabels();
+
+        return array_merge(
+            $labels,
+            [
+                'password' => Yii::t('app', 'Password'),
+                'repassword' => Yii::t('app', 'Repassword')
+            ]
+        );
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function beforeSave($insert)
+    {
+        if (parent::beforeSave($insert)) {
+            if ($this->isNewRecord || (!$this->isNewRecord && $this->password)) {
+                $this->setPassword($this->password);
+                $this->generateAuthKey();
+                $this->generatePasswordResetToken();
+            }
+            return true;
+        }
+        return false;
     }
 }

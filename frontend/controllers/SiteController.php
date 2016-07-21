@@ -1,6 +1,9 @@
 <?php
 namespace frontend\controllers;
 
+use app\models\About;
+use app\models\Config;
+use backend\models\Mail;
 use Yii;
 use common\models\LoginForm;
 use frontend\models\PasswordResetRequestForm;
@@ -8,6 +11,7 @@ use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
 use yii\base\InvalidParamException;
+use yii\behaviors\TimestampBehavior;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
@@ -142,8 +146,11 @@ class SiteController extends Controller
 
     public function actionContact()
     {
+        $config = Config::find()->all();
+
         $model = new ContactForm();
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+
             if ($model->sendEmail(Yii::$app->params['adminEmail'])) {
                 Yii::$app->session->setFlash('success', 'Thank you for contacting us. We will respond to you as soon as possible.');
             } else {
@@ -154,18 +161,21 @@ class SiteController extends Controller
         } else {
             return $this->render('contact', [
                 'model' => $model,
+                'config' => $config,
             ]);
         }
     }
 
     public function actionAbout()
     {
+        $about = About::find();
         $team = Team::find()->limit(4)->orderBy(['id' => SORT_DESC])->all();
         $testimonials1 = Testimonials::find()->limit(4)->offset(1)->one();
         $testimonials2 = Testimonials::find()->limit(4)->offset(2)->one();
         $testimonials3 = Testimonials::find()->limit(4)->offset(3)->one();
         $testimonials4 = Testimonials::find()->limit(4)->offset(4)->one();
         return $this->render('about', [
+            'about' => $about,
             'testimonials1' => $testimonials1,
             'testimonials2' => $testimonials2,
             'testimonials3' => $testimonials3,

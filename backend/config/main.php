@@ -11,11 +11,21 @@ return [
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
-    'modules' => [],
+
     'components' => [
         'user' => [
             'identityClass' => 'common\models\User',
             'enableAutoLogin' => true,
+        ],
+        'urlManager' => [
+            'enablePrettyUrl' => true,
+            'showScriptName' => false,
+            //'enableStrictParsing' => true,
+            'rules' => [
+                '<controller:\w+>/<id:\d+>' => '<controller>/view',
+                '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
+                '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
+            ],
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
@@ -29,15 +39,6 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-
-        /*'urlManager' => [
-            //'enablePrettyUrl' => true,
-            'showScriptName' => false,
-            'rules' => [
-                '<action>' => '<controller>/<action>',
-            ],
-        ],*/
-
     ],
     'params' => $params,
 ];

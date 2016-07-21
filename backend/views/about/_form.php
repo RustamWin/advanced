@@ -14,7 +14,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'intro_text')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'full_text')->textarea(['rows' => 6]) ?>
+    <?= $form->field($model, 'full_text')->textarea(['rows' => 25]) ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

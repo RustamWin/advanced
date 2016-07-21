@@ -49,10 +49,10 @@ class ConfigController extends Controller
      * @param string $title
      * @return mixed
      */
-    public function actionView($address, $phone, $email, $title)
+    public function actionView($id)
     {
         return $this->render('view', [
-            'model' => $this->findModel($address, $phone, $email, $title),
+            'model' => $this->findModel($id),
         ]);
     }
 
@@ -66,7 +66,7 @@ class ConfigController extends Controller
         $model = new Config();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'address' => $model->address, 'phone' => $model->phone, 'email' => $model->email, 'title' => $model->title]);
+            return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -83,12 +83,12 @@ class ConfigController extends Controller
      * @param string $title
      * @return mixed
      */
-    public function actionUpdate($address, $phone, $email, $title)
+    public function actionUpdate($id)
     {
-        $model = $this->findModel($address, $phone, $email, $title);
+        $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'address' => $model->address, 'phone' => $model->phone, 'email' => $model->email, 'title' => $model->title]);
+            return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
                 'model' => $model,
@@ -105,9 +105,9 @@ class ConfigController extends Controller
      * @param string $title
      * @return mixed
      */
-    public function actionDelete($address, $phone, $email, $title)
+    public function actionDelete($id)
     {
-        $this->findModel($address, $phone, $email, $title)->delete();
+        $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
     }
@@ -122,9 +122,9 @@ class ConfigController extends Controller
      * @return Config the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($address, $phone, $email, $title)
+    protected function findModel($id)
     {
-        if (($model = Config::findOne(['address' => $address, 'phone' => $phone, 'email' => $email, 'title' => $title])) !== null) {
+        if (($model = Config::findOne(['id' => $id])) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

@@ -5,9 +5,8 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model backend\models\About */
 
-$this->title = 'Update About: ' . ' ' . $model->intro_text;
-$this->params['breadcrumbs'][] = ['label' => 'Abouts', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->intro_text, 'url' => ['view', 'id' => $model->intro_text]];
+$this->title = 'Update About';
+$this->params['breadcrumbs'][] = ['label' => $this->title, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'Update';
 ?>
 <div class="about-update">

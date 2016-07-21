@@ -9,7 +9,8 @@ use yii\grid\GridView;
 $this->title = 'Portfolios';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="portfolio-index">
+<div class="row">
+    <div class="portfolio-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -27,10 +28,9 @@ $this->params['breadcrumbs'][] = $this->title;
             'img',
             'full:ntext',
             'description',
-            // 'category',
-
+             'category',
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
-
+</div>
 </div>

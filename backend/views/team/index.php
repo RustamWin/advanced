@@ -27,9 +27,9 @@ $this->params['breadcrumbs'][] = $this->title;
             'img',
             'testimonial',
             'email:email',
-            // 'fb_address',
-            // 'in_address',
-            // 'twitter_address',
+            'fb_address',
+            'in_address',
+            'twitter_address',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

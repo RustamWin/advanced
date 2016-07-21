@@ -22,22 +22,7 @@ SET time_zone = "+00:00";
 
 -- --------------------------------------------------------
 
---
--- Структура таблицы `migration`
---
 
-CREATE TABLE IF NOT EXISTS `migration` (
-  `version` varchar(180) NOT NULL,
-  `apply_time` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Дамп данных таблицы `migration`
---
-
-INSERT INTO `migration` (`version`, `apply_time`) VALUES
-('m000000_000000_base', 1467968001),
-('m130524_201442_init', 1467968003);
 
 -- --------------------------------------------------------
 
@@ -197,12 +182,6 @@ INSERT INTO `user` (`id`, `username`, `auth_key`, `password_hash`, `password_res
 --
 -- Индексы сохранённых таблиц
 --
-
---
--- Индексы таблицы `migration`
---
-ALTER TABLE `migration`
- ADD PRIMARY KEY (`version`);
 
 --
 -- Индексы таблицы `portfolio`
